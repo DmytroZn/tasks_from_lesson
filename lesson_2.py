@@ -50,6 +50,7 @@ class Truck(Car):
         self._way = way
         self._car_release = car_release
         self._bag = bag
+        
 
     def move(self):
         return 'Truck drives'
@@ -99,9 +100,13 @@ class PassengerCar(Car):
 # and implement the output of a class variable value that will store 
 # the total number of goods sold by all stores.
 class Store:
+    AMOUNT_SOLD_OUT_ALL_SHOPS = 0
+
+
     def __init__(self, name, count_sold_out):
         self._name = name 
         self._count_sold_out = count_sold_out
+        Store.AMOUNT_SOLD_OUT_ALL_SHOPS += count_sold_out
     
     def add_count_sold_out(self, value):
         self._count_sold_out += value
@@ -110,7 +115,7 @@ class Store:
         return f'Sold out products are {self._count_sold_out} amount in {self._name}'
 
     def count_sold_out_all_shops(self):
-        pass
+        return AMOUNT_SOLD_OUT_ALL_SHOPS
     
 
 ashan = Store('Ashan', 12)
@@ -121,3 +126,4 @@ ashan.add_count_sold_out(122)
 print(ashan.get_count_sold_out())
 
 print(atb.get_count_sold_out())
+print(ashan.AMOUNT_SOLD_OUT_ALL_SHOPS)
