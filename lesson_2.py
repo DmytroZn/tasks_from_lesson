@@ -1,3 +1,7 @@
+# Create a class car. Describe common attributes. 
+# Create passenger car and truck classes. 
+# Describe basic attributes for cars in the main class.
+# It will be a plus if you override the methods of the base class in the heir classes.
 class Car:
 
     def move(self):
@@ -76,14 +80,44 @@ class PassengerCar(Car):
         return f'Passenger car drove througt {self._way} km'
     
 
+# truck1 = Truck(0, 'Mercedes', 'GR215', 200, 2017, 15)
+# passenger_car1 = PassengerCar(0, 'Lexus', 'L20', 210, 2019)
 
-truck1 = Truck(0, 'Mercedes', 'GR215', 200, 2017, 15)
-passenger_car1 = PassengerCar(0, 'Lexus', 'L20', 210, 2019)
+# print(truck1.get_bag())
+# truck1.set_bag(17)
+# print(truck1.get_bag())
 
-print(truck1.get_bag())
-truck1.set_bag(17)
-print(truck1.get_bag())
+# print(truck1.move())
+# print(passenger_car1.move())
 
-print(truck1.move())
-print(passenger_car1.move())
 
+
+# Create a store class. 
+# The designer must initialize the values: 
+# "Store Names" and "Number of Items Sold". 
+# Implement object methods that will increase the number of goods sold, 
+# and implement the output of a class variable value that will store 
+# the total number of goods sold by all stores.
+class Store:
+    def __init__(self, name, count_sold_out):
+        self._name = name 
+        self._count_sold_out = count_sold_out
+    
+    def add_count_sold_out(self, value):
+        self._count_sold_out += value
+
+    def get_count_sold_out(self):
+        return f'Sold out products are {self._count_sold_out} amount in {self._name}'
+
+    def count_sold_out_all_shops(self):
+        pass
+    
+
+ashan = Store('Ashan', 12)
+atb = Store('ATB', 100)
+
+print(ashan.get_count_sold_out())
+ashan.add_count_sold_out(122)
+print(ashan.get_count_sold_out())
+
+print(atb.get_count_sold_out())
