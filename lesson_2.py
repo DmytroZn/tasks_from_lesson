@@ -121,9 +121,84 @@ class Store:
 ashan = Store('Ashan', 12)
 atb = Store('ATB', 100)
 
-print(ashan.get_count_sold_out())
+# print(ashan.get_count_sold_out())
 ashan.add_count_sold_out(122)
-print(ashan.get_count_sold_out())
+# print(ashan.get_count_sold_out())
 
-print(atb.get_count_sold_out())
-print(ashan.AMOUNT_SOLD_OUT_ALL_SHOPS)
+# print(atb.get_count_sold_out())
+# print(ashan.AMOUNT_SOLD_OUT_ALL_SHOPS)
+
+
+
+# Create a point class, implement a constructor 
+# that initializes 3 coordinates (x, y, z). 
+# Implement methods for getting and changing each coordinate. 
+# Overload for this class the methods of addition, subtraction, 
+# division of multiplication.
+# Overload one any unary method.
+# Expected result: I multiply the point with coordinates 1, 2, 3 
+# by another point with the same coordinates, I get the result 1, 4, 9.
+
+class Point:
+    def __init__(self, x, y, z):
+        self._x = x
+        self._y = y
+        self._z = z
+
+    def add_x(self, value):
+        self._x = value
+    
+    def get_x(self):
+        return self._x
+    
+    def add_y(self, value):
+        self._y = value
+    
+    def get_y(self):
+        return self._y
+
+    def add_z(self, value):
+        self._z = value
+    
+    def get_z(self):
+        return self._z
+
+
+    def get_points(self):
+        return self._x, self._y, self._z
+
+    def __add__(self, other):
+        return Point(self._x + other._x, self._y + other._y, self._z + other._z)
+
+    def __sub__(self, other):
+        return Point(self._x - other._x, self._y - other._y, self._z - other._z)
+
+    def __mul__(self, other):
+        return Point(self._x * other._x, self._y * other._y, self._z * other._z)
+
+    # def __div__(self, other):
+    #     return Point(self._x / other._x, self._y / other._y, self._z / other._z)
+
+    def __floordiv__(self, other):
+        return Point(self._x // other._x, self._y // other._y, self._z // other._z)
+         
+    def __mod__(self, other):
+        return Point(self._x % other._x, self._y % other._y, self._z % other._z)
+
+    def __and__(self, other):
+        return Point(self._x & other._y, self._y & other._y, self._z & other._z)
+
+
+
+a = Point(1, 2, 3)
+b = Point(2, 5, 6)
+
+a.add_x(5)
+
+print(a._x)
+print(a.get_x())
+
+c = a * b
+print(c.get_points())
+
+    
