@@ -100,8 +100,8 @@ class PassengerCar(Car):
 # and implement the output of a class variable value that will store 
 # the total number of goods sold by all stores.
 class Store:
-    AMOUNT_SOLD_OUT_ALL_SHOPS = 0
 
+    AMOUNT_SOLD_OUT_ALL_SHOPS = 0
 
     def __init__(self, name, count_sold_out):
         self._name = name 
@@ -140,6 +140,7 @@ ashan.add_count_sold_out(122)
 # by another point with the same coordinates, I get the result 1, 4, 9.
 
 class Point:
+    
     def __init__(self, x, y, z):
         self._x = x
         self._y = y
