@@ -2,6 +2,7 @@
 # Create a complex number class and implement arithmetic operations for it.
 
 class DataStack:
+
     def __init__(self):
         self._items = []
 
@@ -73,6 +74,7 @@ class DataQueue(DataStack):
     def front(self):
         return self._items[0]
 
+
 b = DataQueue()
 b.push(5)
 b.push(4)
@@ -82,7 +84,6 @@ print(b.get_items())
 b.pop()
 print(b.get_items())
 print(b.front())
-
 
 
 class ComplexNumbers:
