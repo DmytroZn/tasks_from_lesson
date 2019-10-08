@@ -104,8 +104,8 @@ class ComplexNumbers:
     def __mul__(self, other):
         return ComplexNumbers(self._real * other._real, self._imaginary * other._imaginary)
 
-    # def __div__(self, other):
-    #     return ComplexNumbers(self._real / other._real, self._imaginary / other._imaginary)
+    def __truediv__(self, other):
+        return ComplexNumbers(self._real / other._real, self._imaginary / other._imaginary)
 
     def __floordiv__(self, other):
         return ComplexNumbers(self._real // other._real, self._imaginary // other._imaginary)
@@ -120,6 +120,6 @@ class ComplexNumbers:
 a = ComplexNumbers(2,18)
 b = ComplexNumbers(4,1)
 d = ComplexNumbers(6,5)
-c = a & b
+c = a / b
 
-# print(c.get_x())
+print(c.get_x())

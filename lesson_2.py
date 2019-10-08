@@ -177,8 +177,8 @@ class Point:
     def __mul__(self, other):
         return Point(self._x * other._x, self._y * other._y, self._z * other._z)
 
-    # def __div__(self, other):
-    #     return Point(self._x / other._x, self._y / other._y, self._z / other._z)
+    def __truediv__(self, other):
+        return Point(self._x / other._x, self._y / other._y, self._z / other._z)
 
     def __floordiv__(self, other):
         return Point(self._x // other._x, self._y // other._y, self._z // other._z)
