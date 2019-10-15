@@ -36,7 +36,7 @@ def random_time_sleep(time_to_sleep):
 
 
 
-# task 2
+# # task 2
 
 def my_decorator(name, is_daemon):
 
@@ -49,48 +49,66 @@ def my_decorator(name, is_daemon):
 
             t = Thread(target=func, args=(5, ), name=name, daemon=is_daemon)
             t.start()
-            print('thread ended 2')
             print(t.isDaemon())
+            print('thread ended 2')
+            
 
         return wrapper
 
     return decoranor
 
 
-
-list_of_name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5', 'thread_6'] 
-
-
-
-# for i in list_of_name_threads:
-#     @my_decorator(i, False)
-#     def downloader_func(url, name1):
-#         print('Beginning file download with urllib2...')
-#         return urllib.request.urlretrieve(url, f'{name1}.png')
-
-@my_decorator('sdf', False)
-def downloader_func(url, name1):
-    print('Beginning file download with urllib2...')
-    return urllib.request.urlretrieve(url, f'{name1}.png')
+for k in ('t1', 't2'):
+    @my_decorator(k, False)
+    def downloader_func(name1, url):
+        time.sleep(0.5)
+        print('Beginning file download with urllib2...')
+        return urllib.request.urlretrieve(url, f'str({name1}).png')
 
 
 
-list_of_url = ['http://i.stack.imgur.com/m3lqF.png', 
-'http://i.stack.imgur.com/m3lqF.png', 
-'http://klike.net/uploads/posts/2018-08/1533804907_1.jpeg', 
-'http://klike.net/uploads/posts/2018-08/medium/1533804949_5.jpg', 
-'http://klike.net/uploads/posts/2018-08/1533804978_7.jpg', 
-'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'
-]
-list_of_name_files = [1, 2, 3, 4, 5, 6]
+list_of_url = ('http://i.stack.imgur.com/m3lqF.png', 
+'http://i.stack.imgur.com/m3lqF.png' 
+# 'http://klike.net/uploads/posts/2018-08/1533804907_1.jpeg', 
+# 'http://klike.net/uploads/posts/2018-08/medium/1533804949_5.jpg', 
+# 'http://klike.net/uploads/posts/2018-08/1533804978_7.jpg', 
+# 'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'
+)
+
+for i in enumerate(list_of_url):
+    downloader_func(i)
 
 
 
-for i, k in zip(list_of_url, list_of_name_files):
-    downloader_func(i, k)
-    
+#########################################################################
 
 
-url = 'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'  
+# task 3
 
-# downloader_func(url, 'some_name')
+class ContextOpen:
+
+
+    def __init__(self, name_file, method):
+        self._name_file = name_file
+        self._method = method
+        self._state = 'Active'
+        self._open_file = open(self._name_file, self._method)
+
+    def __enter__(self):
+        print('Open file')
+        return self._open_file
+
+    def __exit__(self,  exc_type, exc_val, et_tb):
+        self._state = 'Inactive'
+        self._open_file.close()
+        print('Closed file')
+      
+
+# with ContextOpen('file.txt', 'w') as y:
+#     y.write('sdfsdf')
+
+# with ContextOpen('file.txt', 'r') as y:
+#     print(y.read(1))
+
+# with open('file.txt', 'r') as r:
+#     print(r.read(1))
