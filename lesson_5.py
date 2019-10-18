@@ -5,6 +5,9 @@ import re
 import urllib.request
 
 # task 1
+# Create a decorator that will run the function in a separate thread. 
+# The decorator should accept the following arguments: 
+# name of the stream, whether the stream is a daemon.
 
 def simple_decorator(name, is_daemon):
 
@@ -37,10 +40,13 @@ def random_time_sleep(time_to_sleep):
 
 
 
-# # task 2
-
-
-
+# task 2
+# Create a function that will download a file from the Internet via a link, 
+# hang the created decorator on it. 
+# Create a list of 10 links for downloading. 
+# Create a list of threads, a separate thread, for each of the links. 
+# Each stream should signal that it has started working and 
+# by which link it works, it should also inform when the download is finished.
 def my_decorator(name, is_daemon):
 
     def decoranor(func):
@@ -54,7 +60,6 @@ def my_decorator(name, is_daemon):
             # print(t.isDaemon())
             # print('Thread ended')
             
-
         return wrapper
 
     return decoranor
@@ -65,7 +70,6 @@ name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5',
 
 for l in name_threads:
     @my_decorator(l, False)
-
     def downloader_func(url):
         result = re.split(r'/', url)
         name1 = result[-1]
@@ -92,13 +96,8 @@ for i in list_of_url:
     downloader_func(i)
 
 
-
-
-#########################################################################
-
-
 # task 3
-
+# Write your context manager for working with files.
 class ContextOpen:
 
 
