@@ -39,7 +39,9 @@ def random_time_sleep(time_to_sleep):
 
 # # task 2
 
-def my_decorator(is_daemon):
+
+
+def my_decorator(name, is_daemon):
 
     def decoranor(func):
         
@@ -47,8 +49,7 @@ def my_decorator(is_daemon):
             
             # print('thread started 1')
             time.sleep(0.5)
-
-            t = Thread(target=func, args=args, daemon=is_daemon)
+            t = Thread(target=func, name=name, args=args, daemon=is_daemon)
             t.start()
             # print(t.isDaemon())
             # print('Thread ended')
@@ -59,33 +60,39 @@ def my_decorator(is_daemon):
     return decoranor
 
 
+name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5', 
+'thread_6', 'thread_7', 'thread_8', 'thread_9', 'thread_10']
 
+for l in name_threads:
+    @my_decorator(l, False)
 
-@my_decorator(False)
-def downloader_func(url):
-    result = re.split(r'/', url)
-    name1 = result[-1]
-    time.sleep(0.5)
-    print(f'{threading.currentThread().getName()} - name')
-    print(f'Beginning file download with {url}') 
-    if urllib.request.urlretrieve(url, f'{name1}.png'):
-        print('end dowloaded')
-
+    def downloader_func(url):
+        result = re.split(r'/', url)
+        name1 = result[-1]
+        time.sleep(0.5)
+        print(f'{threading.currentThread().getName()} - name')
+        print(f'Beginning file download with: {url}') 
+        if urllib.request.urlretrieve(url, f'{name1}.png'):
+            print(f'end dowloaded {name1}')
 
 
 list_of_url = ['http://i.stack.imgur.com/m3lqF.png',
 'http://klike.net/uploads/posts/2018-08/1533804907_1.jpeg', 
 'http://klike.net/uploads/posts/2018-08/medium/1533804949_5.jpg', 
 'http://klike.net/uploads/posts/2018-08/1533804978_7.jpg', 
-'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'
+'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg',
+'http://techrocks.ru/wp-content/uploads/2018/11/python-is-the-best-programming-840x500.jpg',
+'http://techrocks.ru/wp-content/uploads/2018/11/djangoproject.png',
+'http://techrocks.ru/wp-content/uploads/2018/11/Flask.png',
+'http://techrocks.ru/wp-content/uploads/2018/11/web2py.png',
+'http://techrocks.ru/wp-content/uploads/2018/11/cherrypy-980x581.png'
 ]
-
-
 
 for i in list_of_url:
     downloader_func(i)
-# for i in enumerate(list_of_url):
-#     downloader_func(i, i)
+
+
+
 
 #########################################################################
 
