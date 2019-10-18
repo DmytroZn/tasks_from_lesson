@@ -1,6 +1,7 @@
 from threading import Thread
+import threading
 import time
-
+import re 
 import urllib.request
 
 # task 1
@@ -38,19 +39,19 @@ def random_time_sleep(time_to_sleep):
 
 # # task 2
 
-def my_decorator(name, is_daemon):
+def my_decorator(is_daemon):
 
     def decoranor(func):
         
         def wrapper(*args, **kwargs):
             
-            print('thread started 1')
+            # print('thread started 1')
             time.sleep(0.5)
 
-            t = Thread(target=func, args=(5, ), name=name, daemon=is_daemon)
+            t = Thread(target=func, args=args, daemon=is_daemon)
             t.start()
-            print(t.isDaemon())
-            print('thread ended 2')
+            # print(t.isDaemon())
+            # print('Thread ended')
             
 
         return wrapper
@@ -58,27 +59,33 @@ def my_decorator(name, is_daemon):
     return decoranor
 
 
-for k in ('t1', 't2'):
-    @my_decorator(k, False)
-    def downloader_func(name1, url):
-        time.sleep(0.5)
-        print('Beginning file download with urllib2...')
-        return urllib.request.urlretrieve(url, f'str({name1}).png')
+
+
+@my_decorator(False)
+def downloader_func(url):
+    result = re.split(r'/', url)
+    name1 = result[-1]
+    time.sleep(0.5)
+    print(f'{threading.currentThread().getName()} - name')
+    print(f'Beginning file download with {url}') 
+    if urllib.request.urlretrieve(url, f'{name1}.png'):
+        print('end dowloaded')
 
 
 
-list_of_url = ('http://i.stack.imgur.com/m3lqF.png', 
-'http://i.stack.imgur.com/m3lqF.png' 
-# 'http://klike.net/uploads/posts/2018-08/1533804907_1.jpeg', 
-# 'http://klike.net/uploads/posts/2018-08/medium/1533804949_5.jpg', 
-# 'http://klike.net/uploads/posts/2018-08/1533804978_7.jpg', 
-# 'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'
-)
+list_of_url = ['http://i.stack.imgur.com/m3lqF.png',
+'http://klike.net/uploads/posts/2018-08/1533804907_1.jpeg', 
+'http://klike.net/uploads/posts/2018-08/medium/1533804949_5.jpg', 
+'http://klike.net/uploads/posts/2018-08/1533804978_7.jpg', 
+'http://klike.net/uploads/posts/2018-08/1533804939_11.jpg'
+]
 
-for i in enumerate(list_of_url):
+
+
+for i in list_of_url:
     downloader_func(i)
-
-
+# for i in enumerate(list_of_url):
+#     downloader_func(i, i)
 
 #########################################################################
 
