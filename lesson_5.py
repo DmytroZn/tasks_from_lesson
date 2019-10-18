@@ -52,22 +52,22 @@ def my_decorator(name, is_daemon):
     def decoranor(func):
         
         def wrapper(*args, **kwargs):
-            
+            name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5', 
+            'thread_6', 'thread_7', 'thread_8', 'thread_9', 'thread_10']
             # print('thread started 1')
             time.sleep(0.5)
-            for k in range(10):
+            for k in name_threads:
                 t = Thread(target=func, name=name + str( k), args=args, daemon=is_daemon)
-                t.start()
+            t.start()
             # print(t.isDaemon())
             # print('Thread ended')
-            
+            return 
         return wrapper
 
     return decoranor
 
 
-name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5', 
-'thread_6', 'thread_7', 'thread_8', 'thread_9', 'thread_10']
+
 
 # for l in name_threads:
 @my_decorator('sdf', False)
