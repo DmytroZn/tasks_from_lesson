@@ -55,8 +55,9 @@ def my_decorator(name, is_daemon):
             
             # print('thread started 1')
             time.sleep(0.5)
-            t = Thread(target=func, name=name, args=args, daemon=is_daemon)
-            t.start()
+            for k in range(10):
+                t = Thread(target=func, name=name + str( k), args=args, daemon=is_daemon)
+                t.start()
             # print(t.isDaemon())
             # print('Thread ended')
             
@@ -68,16 +69,16 @@ def my_decorator(name, is_daemon):
 name_threads = ['thread_1', 'thread_2', 'thread_3', 'thread_4', 'thread_5', 
 'thread_6', 'thread_7', 'thread_8', 'thread_9', 'thread_10']
 
-for l in name_threads:
-    @my_decorator(l, False)
-    def downloader_func(url):
-        result = re.split(r'/', url)
-        name1 = result[-1]
-        time.sleep(0.5)
-        print(f'{threading.currentThread().getName()} - name')
-        print(f'Beginning file download with: {url}') 
-        if urllib.request.urlretrieve(url, f'{name1}.png'):
-            print(f'end dowloaded {name1}')
+# for l in name_threads:
+@my_decorator('sdf', False)
+def downloader_func(url):
+    result = re.split(r'/', url)
+    name1 = result[-1]
+    time.sleep(0.5)
+    print(f'{threading.currentThread().getName()} - name')
+    print(f'Beginning file download with: {url}') 
+    if urllib.request.urlretrieve(url, f'{name1}.png'):
+        print(f'end dowloaded {name1}')
 
 
 list_of_url = ['http://i.stack.imgur.com/m3lqF.png',
