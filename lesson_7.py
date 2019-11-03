@@ -1,39 +1,10 @@
 import sqlite3
 
-# name = input('write name: ')
-# faculty = input('Write faculty: ')
-# groupe = input('write groupe: ')
-# number_stud = input('write number of student`s ticket')
-# mark = input('write mark: ')
-
-
-
-# conn = sqlite3.connect('student.db')
-# cursor = conn.cursor()
-
-# query_response = cursor.execute('SELECT * FROM student')
-
-# # print(query_response)
-# print(query_response.fetchall())
-# # print(query_response.fetchone())
-# a = cursor.execute("""SELECT * FROM student INNER JOIN role
-# on student.role_id = role.id""")
-
-# print()
-# print(a.fetchall())
-
-
-
-# conn.close()
-
-
 class Administrator:
 
     def __init__(self):
         self._conn = sqlite3.connect('lesson_7.db')
         self._cursor = self._conn.cursor()
-
-
 
     def add_student(self):
         while True:
@@ -48,8 +19,6 @@ class Administrator:
             else:
                 print('That name is busy, create not same')
     
-
-
         self._faculty = input('Write faculty: ')
         self._groupe = input('write groupe: ')
         while True:
@@ -63,7 +32,6 @@ class Administrator:
             else:
                 print('That number is busy, create not same')
   
-
         self._sql = """INSERT INTO student (name) VALUES(?) """
         self._query_response = self._cursor.execute(self._sql, [self._name])
 
@@ -78,6 +46,15 @@ class Administrator:
         self._conn.close()
         print('\n Student was added \n')
 
+
+    def list_of_students(self):
+        print('\n List of all student: ')
+        self._sql = """SELECT name FROM student """
+        self._sql = self._cursor.execute(self._sql)
+        for i in self._sql.fetchall():
+            print(i[0])
+
+
     def add_mark_subject(self):
         while True:
             try:
@@ -87,19 +64,14 @@ class Administrator:
                 print('\n Write only \'y\' or \'n\' ')
                 
             if self._ques_1 == 'n':
-                self._sql = """SELECT name FROM student """
-                self._sql = self._cursor.execute(self._sql)
-                for i in self._sql.fetchall():
-                    print(i[0])
+                Administrator().list_of_students()
                 break
             elif self._ques_1 == 'y':
                 break
             else:
                 print('Try again, not correct answer')
 
-
         while True:
-           
             try:
                 self._ques_2 = input('\n Which student do you want to add mark?\n')
             except (TypeError,KeyboardInterrupt):
@@ -108,12 +80,9 @@ class Administrator:
             self._sql = self._cursor.execute(self._sql)
             if self._sql.fetchall() == []:
                 print('Not real student, try again')
-        
             else:
                 break
 
-
- 
         self._sql = """SELECT title FROM subject """
         self._sql = self._cursor.execute(self._sql)
         print()
@@ -145,7 +114,6 @@ class Administrator:
         self._sql = self._cursor.execute(self._sql)
         self._num = self._sql.fetchone()[0]
 
-
         while True:
             try:
                 self._mark = int(input('write mark: '))
@@ -163,6 +131,7 @@ class Administrator:
         self._conn.close()
         print('Student got a mark')
 
+
     def update_student(self):
 
         while True:
@@ -173,22 +142,14 @@ class Administrator:
                 print('\n Write only \'y\' or \'n\' ')
                 
             if self._ques_1 == 'n':
-                self._sql = """SELECT name FROM student """
-                self._sql = self._cursor.execute(self._sql)
-                for i in self._sql.fetchall():
-                    print(i[0])
+                Administrator().list_of_students()
                 break
             elif self._ques_1 == 'y':
                 break
             else:
                 print('Try again, not correct answer')
 
-
-
-
-
         while True:
-           
             try:
                 self._ques_2 = input('\n Which student do you want to change?\n')
             except (TypeError,KeyboardInterrupt):
@@ -199,9 +160,7 @@ class Administrator:
                 print('Not real student, try again')
             else:
                 break
-        
         print(self._ques_2)
-
         self._list_to_change = ['\n', 'name', 'faculty', 'groupe', 'number of student`s tickets']
         
         for i in self._list_to_change:
@@ -219,7 +178,6 @@ class Administrator:
                 break
 
         while True:
-
             if self._ques_4 == 'name':
                 try:
                     self._ques_5 = str(input('What is new name: '))
@@ -232,7 +190,6 @@ class Administrator:
                 self._conn.close()
                 print('Name was changed')
                 break
-
             elif self._ques_4 == 'faculty':
                 try:
                     self._ques_5 = str(input('What is new faculty: '))
@@ -283,11 +240,12 @@ class Administrator:
                 break
 
 
-class Student:
+class Student(Administrator):
 
     def __init__(self):
         self._conn = sqlite3.connect('lesson_7.db')
         self._cursor = self._conn.cursor()
+
 
     def get_info_one_stud(self):
 
@@ -299,19 +257,18 @@ class Student:
                 print('\n Write only \'y\' or \'n\' ')
                 
             if self._ques_1 == 'n':
-                self._sql = """SELECT name FROM student """
-                self._sql = self._cursor.execute(self._sql)
-                for i in self._sql.fetchall():
-                    print(i[0])
+                Administrator().list_of_students()
+                # self._sql = """SELECT name FROM student """
+                # self._sql = self._cursor.execute(self._sql)
+                # for i in self._sql.fetchall():
+                #     print(i[0])
                 break
             elif self._ques_1 == 'y':
                 break
             else:
                 print('Try again, not correct answer')
 
-
         while True:
-           
             try:
                 self._ques_2 = input('\n Which student do you want to know information?\n')
             except (TypeError,KeyboardInterrupt):
@@ -320,7 +277,6 @@ class Student:
             self._sql = self._cursor.execute(self._sql)
             if self._sql.fetchall() == []:
                 print('Not real student, try again')
-        
             else:
                 break
         
@@ -330,13 +286,11 @@ class Student:
         on data_stud.id_student=student.id
         INNER JOIN mark_of
         on student.id=mark_of.id_student
-        
         INNER JOIN subject
         on mark_of.id_subject=subject.id
         WHERE name='{self._ques_2}'
         """
         self._sql = self._cursor.execute(self._sql)
-        
         List_info = self._sql.fetchall()
         len_list = len(List_info)
         k = f"""name: {List_info[0][0]}; faculty: {List_info[0][3]}; groupe: {List_info[0][4]}; number student`s ticket: {List_info[0][5]}; """
@@ -345,39 +299,64 @@ class Student:
         for i in range(len_list): 
             print(f"""\t\b\b\b{List_info[i][2]} \t:   {List_info[i][1]}""")
 
+
     def find_student(self):
-        pass
 
-#         SELECT name, mark, title, faculty, groupe, number_stud FROM data_stud
-# INNER JOIN student
-# on data_stud.id_student=student.id
-# INNER JOIN mark_of
-# on student.id=mark_of.id_student
-# INNER JOIN subject
-# on mark_of.id_subject=subject.id
-# WHERE name='Dima Znak'
+        while True:
+            try:
+                self._ques_2 = input('\n write student`s ticket?\n')
+            except (TypeError,KeyboardInterrupt):
+                self._ques_2 = 'None'
+
+            self._sql = f"""SELECT id_student FROM data_stud WHERE number_stud='{self._ques_2}' """
+            self._sql = self._cursor.execute(self._sql)
+            self._id_num = self._sql.fetchone()
+            if self._id_num == []:
+                print('Not real student, try again')
+            else:
+                break
+        self._id_num = self._id_num[0]
+        self._sql = f"""SELECT name FROM student WHERE id = '{self._id_num}' """
+        self._sql = self._cursor.execute(self._sql)
+        self._name = self._sql.fetchone()
+        print(f'Student which you search was: {self._name[0]}')
+
+
+    def list_of_the_best(self):
+
+        list_stud = []
+        self._sql = """SELECT name FROM student """
+        self._sql = self._cursor.execute(self._sql)
+        for i in self._sql.fetchall():
+            list_stud.append(i[0])
+
+        for self._ques_2 in list_stud:
+            self._sql = f""" 
+            SELECT name, mark, faculty, groupe, number_stud FROM data_stud
+            INNER JOIN student
+            on data_stud.id_student=student.id
+            INNER JOIN mark_of
+            on student.id=mark_of.id_student
+            INNER JOIN subject
+            on mark_of.id_subject=subject.id
+            WHERE name='{self._ques_2}'
+            """
+            self._sql = self._cursor.execute(self._sql)
+            list_ready = self._sql.fetchall()
+            len_list = len(list_ready)
+            sum_mark = []
+            for i in range(len_list):
+                sum_mark.append(list_ready[i][1])
+            sum_mark = sum(sum_mark)
+            if sum_mark % len_list == 0:
+                print(f' The best student is {self._ques_2}')
 
             
 
+class Machine(Administrator):
 
-        # self._sql = """INSERT INTO mark_of (mark, subject, id_student) VALUES(?, ?, ?) """
-        # self._query_response = self._cursor.execute(self._sql, [self._mark, ])
-
-            
-
-        
-            
-            
-
-        # self._mark = input('write mark: ')
-        # self._sql = """INSERT INTO mark_of (id_student) VALUES(?) """
-        # self._query_response = self._cursos.execute(self._sql, [])
-        # pass
-
-    
-
-class Machine:
     def start(self):
+
         self._q = """
         \n 
         1 - Add new student; 
@@ -385,6 +364,7 @@ class Machine:
         3 - Update student`s date; 
         4 - Log_out; \n
         """
+
         self._r = """
         \n 
         1 - Get list of the best students; 
@@ -419,7 +399,6 @@ class Machine:
                     elif self._b == 4:
                         break
                     
-                    
             elif self._user == 2:
                 while True:
                     print(self._r)
@@ -430,13 +409,13 @@ class Machine:
                         self._b = 0
 
                     if self._d == 1:
-                        pass
+                        Student().list_of_the_best()
 
                     elif self._d == 2:
-                        pass
+                        Administrator().list_of_students()
 
                     elif self._d == 3:
-                        pass
+                        Student().find_student()
 
                     elif self._d == 4:
                         Student().get_info_one_stud()
@@ -444,12 +423,7 @@ class Machine:
                     elif self._d == 5:
                         break
 
-                # print('Student not ready, sorry')
-           
-                        
-                    
-                # Administrator().add_student()
-                # Administrator().add_mark_subject()
-                # Administrator().update_student()
+               
+               
 a = Machine()
 a.start()
