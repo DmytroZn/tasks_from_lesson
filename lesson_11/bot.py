@@ -102,14 +102,17 @@ def get_phone(message):
         bot.register_next_step_handler(message, get_phone) 
 
     
-
 def get_email(message):
     global email
     email = message.text
 
-    bot.send_message(message.chat.id, 'What is your street?')
+    if re.findall(r'\w@\w+\.\w', email):
+        bot.send_message(message.chat.id, 'What is your street?')
+        bot.register_next_step_handler(message, get_street)
+    else:
+        bot.send_message(message.chat.id, 'Opps, try again, not correct email adress')
+        bot.register_next_step_handler(message, get_email)
 
-    bot.register_next_step_handler(message, get_street)
 
 def get_street(message):
     global street
@@ -131,5 +134,3 @@ def get_comments(message):
 
 
 bot.polling(none_stop=True)
-
-
